@@ -39,7 +39,7 @@ A concept for hiding encrypted payload data across two AI-generated carrier medi
 1. Clone the repository
    ```bash
    git clone https://github.com/spandhana-2128/Distributed-Payload-Steganography-on-Generative-Audio-Visual-Carriers.git
-   cd adaptive-steganography
+   cd Distributed-Payload-Steganography-on-Generative-Audio-Visual-Carriers
    ```
 
 2. Install dependencies
