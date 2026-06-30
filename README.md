@@ -1,7 +1,7 @@
-# Adaptive-Steganography
-# Adaptive Steganography
+# Distributed Payload Stegnography on Generative Audio Visual Carriers
 
-Concept for hiding encrypted payload data across two AI-generated carrier media files (an audio spectrogram and an image), designed to resist tampering and basic digital forensics analysis.
+A concept for hiding encrypted payload data across two AI-generated carrier media files (an audio spectrogram and an image), designed to resist tampering and basic digital forensics analysis.
+
 
 1. **Encryption** — The payload file is encrypted using AES-CBC with a randomly generated key and IV.
 2. **Error Correction** — Reed-Solomon error correction codes (ECC) are added to the encrypted data so it can survive minor corruption.
@@ -16,9 +16,15 @@ Concept for hiding encrypted payload data across two AI-generated carrier media 
 | File | Purpose |
 |---|---|
 | `encoder.py` | Encrypts, error-corrects, and embeds the payload across both carriers; generates an integrity file |
-| `decoder.py` | Extracts and reconstructs the original payload from the two carriers, verifying integrity along the way |
+| `decoder.py` | Verifies carrier integrity, prompts for a passphrase, then extracts and decrypts the payload from the two carriers |
 | `tamper.py` | A simple test script that appends a byte to the audio carrier file, used to simulate tampering and test integrity detection |
 | `malicious2.txt` | Sample payload file used as the default input for encoding |
+
+## ⚠️ Important Behavior to Know Before Running
+
+- **Hardcoded passphrase:** `decoder.py` prompts for a passphrase before decoding. The correct value is hardcoded as `"abc"`. You get **2 attempts**.
+- **Destructive failure mode:** If integrity verification fails (carrier files were modified at all, e.g. by `tamper.py`) **or** you exhaust both passphrase attempts, the decoder will deliberately **corrupt/destroy both carrier files** (`garble_files()`) as a simulated anti-forensics response. This is intentional — it's the core feature being demonstrated — but it means you can permanently lose your encoded output if you're not careful.
+- **No undo:** Once garbled, the carrier files cannot be decoded again. You'll need to re-run `encoder.py` to generate fresh ones.
 
 ## Tech Stack
 
@@ -56,12 +62,18 @@ This generates `carrier_a_audio_lsb.wav`, `carrier_b_image_lsb.png`, `carrier_b_
 ```bash
 python decoder.py
 ```
-Extracts the original payload from the two carrier files.
+Verifies file integrity first, then prompts for a passphrase (`abc`, 2 attempts) before extracting the original payload from the two carrier files. If integrity fails or the passphrase is wrong twice, the carrier files are intentionally destroyed instead.
 
 **Test tamper detection:**
 ```bash
 python tamper.py
 ```
-Appends a byte to `carrier_a_audio_lsb.wav` to simulate file tampering, then re-run the decoder to see integrity verification fail.
+Appends a byte to `carrier_a_audio_lsb.wav` to simulate file tampering. Running the decoder afterward will trigger the destructive tamper-response instead of decoding — this is expected behavior, not a bug.
 
+## Disclaimer
+
+This project was built for educational and security research purposes — exploring how steganographic techniques and anti-forensics measures work, including AES encryption, error correction, and tamper detection. It is not intended for malicious use.
+
+
+Specify your license here (e.g. MIT), or inherit from the upstream repo if applicable.
 
