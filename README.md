@@ -1,4 +1,4 @@
-# Distributed Payload Stegnography on Generative Audio Visual Carriers
+# Distributed Payload Steganography on Generative Audio Visual Carriers
 
 A concept for hiding encrypted payload data across two AI-generated carrier media files (an audio spectrogram and an image), designed to resist tampering and basic digital forensics analysis.
 
