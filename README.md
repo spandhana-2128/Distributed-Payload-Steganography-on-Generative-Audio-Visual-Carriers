@@ -75,5 +75,5 @@ Appends a byte to `carrier_a_audio_lsb.wav` to simulate file tampering. Running 
 This project was built for educational and security research purposes — exploring how steganographic techniques and anti-forensics measures work, including AES encryption, error correction, and tamper detection. It is not intended for malicious use.
 
 
-Specify your license here (e.g. MIT), or inherit from the upstream repo if applicable.
+
 
